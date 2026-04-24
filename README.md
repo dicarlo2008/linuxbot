@@ -1,42 +1,36 @@
-# 🛡️ LINUXBOT FORENSE v5.0
+<div align="center">
+  <kbd>
+    <h1 style="color: #00ff41;">🛡️ LINUXBOT FORENSE | SECURITY ENGINE</h1>
+  </kbd>
+  <p><strong>Inteligência Forense e Automação de Defesa de Borda</strong></p>
+</div>
 
-**Descrição:** Automação em Python desenvolvida para análise inteligente de logs do Nginx, rastreio de reputação de IPs e geração de comandos de bloqueio para o firewall `nftables`.
+<hr style="border: 0.5px solid #00ff41;">
 
----
+## 📖 Descrição Estratégica
+O **LinuxBot Forense** é uma solução de engenharia de segurança desenvolvida para realizar a análise profunda de logs de servidores Web (Nginx/HAProxy). O motor utiliza lógica de score para rastreio de reputação de IPs, identificando padrões de ataque antes que eles comprometam a aplicação.
 
-## 📂 1. Estrutura de Pastas e Arquivos
-O projeto deve ser instalado no diretório base para garantir o funcionamento dos caminhos definidos no script:
+## 🧠 Lógica de Inteligência
+Diferente de firewalls estáticos, este motor opera com **análise comportamental**:
 
-* **Diretório Base:** `/root/linuxbot/`
-* **`linuxbot.py`**: Motor de análise e lógica de score.
-* **`linuxbot_intelligence.json`**: Base de dados JSON que armazena o histórico de reputação.
-* **`cron_log.log`**: Registro de logs das execuções automáticas do Cron.
+* **Scoring de Reputação:** Cada IP é avaliado com base em frequência, tipos de erros gerados e acesso a diretórios sensíveis.
+* **Persistência JSON:** Armazenamento de histórico em banco de dados leve (`JSON`) para rastreio de reincidência.
+* **Ação em Nível de Kernel:** Integração com o framework `nftables` para bloqueios de altíssima performance, minimizando o impacto na CPU.
 
----
+## 📂 Arquitetura do Sistema
+O ecossistema é organizado de forma modular para garantir baixa latência no processamento:
 
-## 🛠️ 2. Comandos de Instalação (Servidor Linux)
+* **Motor de Análise:** Responsável pelo parsing de logs e cálculo de risco.
+* **Base de Inteligência:** Histórico de reputação e lista negra dinâmica.
+* **Log de Auditoria:** Registro detalhado de cada tomada de decisão para análise forense posterior.
 
-Execute os comandos abaixo para preparar o ambiente:
+## ⚙️ Operação e Automação
+O sistema foi projetado para operar em modo **Zero-Touch**, com agendamentos automatizados (Cron) que garantem a inspeção contínua dos perímetros de rede. 
 
-```bash
-# 1. Criar pasta e acessar
-mkdir -p /root/linuxbot && cd /root/linuxbot
+> **Nota de Segurança:** Por questões de integridade e proteção de propriedade intelectual, os scripts de execução (`.py`) e comandos específicos de infraestrutura são mantidos em ambiente privado de produção. Este repositório foca na documentação da arquitetura e das capacidades da ferramenta.
 
-# 2. Criar o script principal
-nano linuxbot.py
-# [Cole o código do script dentro deste arquivo]
+<hr style="border: 0.5px solid #00ff41;">
 
-# 3. Preparar a estrutura do Firewall (nftables)
-# Necessário apenas se você ainda não tiver essas tabelas configuradas
-nft add table inet filter
-nft add chain inet filter input { type filter hook input priority 0 \; }
-
-🤖 3. Automação (Agendamento no Cron)
-O script foi desenhado para rodar silenciosamente em segundo plano. Para processar os logs a cada 5 minutos, adicione a seguinte linha ao seu crontab -e:
-
-*/5 * * * * /usr/bin/python3 /root/linuxbot/linuxbot.py >> /root/linuxbot/cron_log.log 2>&1
-
-📊 4. Como ler o Relatório
-Para visualizar o dossiê de inteligência e ver quais IPs foram marcados como perigosos, execute manualmente:
-
-python3 /root/linuxbot/linuxbot.py
+<div align="right">
+  <sub>Bare Metal Security Solutions | DicCarlo SOC</sub>
+</div>
